@@ -14,10 +14,10 @@ public class magicn {
         }
         System.out.println(y);
         if(y==1){
-            System.out.println("Magic is number");
+            System.out.println("Magic number");
         }
         else{
-            System.out.println("Not  number");
+            System.out.println("Not a magic number");
         }
     }
 }
