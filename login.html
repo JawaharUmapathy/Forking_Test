@@ -3,129 +3,181 @@
 <head>
   <meta charset="UTF-8" />
   <title>TOTOYAAnbu Login</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <style>
-    body {
+    /* Reset and base styles */
+    * {
       margin: 0;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      overflow-x: hidden;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', sans-serif;
       background: linear-gradient(to bottom, #e0f7fa, #ffffff);
+      scroll-behavior: smooth;
+      overflow-x: hidden;
     }
 
     section {
-      height: 100vh;
+      min-height: 100vh;
       display: flex;
       align-items: center;
       justify-content: center;
       flex-direction: column;
-      scroll-snap-align: start;
-    }
-
-    .section-title {
-      font-size: 3em;
-      color: #0a74da;
-      opacity: 0;
-      transform: translateY(50px);
-      transition: all 1s ease;
-    }
-
-    .section-title.show {
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    .login-container {
-      opacity: 0;
-      transform: translateY(100px);
-      transition: all 1.5s ease;
-      width: 350px;
-      padding: 30px;
-      background: #fff;
-      box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.15);
-      border-radius: 12px;
-    }
-
-    .login-container.show {
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    .login-container h2 {
       text-align: center;
-      color: #0a74da;
+      padding: 2rem;
     }
 
-    .login-container input[type="text"],
-    .login-container input[type="password"] {
+    .fade-up {
+      opacity: 0;
+      transform: translateY(40px);
+      transition: opacity 1s ease, transform 1s ease;
+    }
+
+    .fade-up.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .brand-logo {
+      width: 100px;
+      height: 100px;
+      margin-bottom: 20px;
+      background: radial-gradient(circle at center, #0a74da, #064db2);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 36px;
+      font-weight: bold;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+    }
+
+    h1 {
+      color: #0a74da;
+      font-size: 2.5rem;
+      margin-bottom: 10px;
+    }
+
+    p {
+      color: #444;
+      font-size: 1.2rem;
+      max-width: 500px;
+    }
+
+    .login-box {
+      margin-top: 40px;
+      width: 100%;
+      max-width: 350px;
+      padding: 30px;
+      background: #ffffff;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+      border-radius: 12px;
+      opacity: 0;
+      transform: translateY(80px);
+      transition: opacity 1s ease, transform 1s ease;
+    }
+
+    .login-box.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .login-box h2 {
+      color: #0a74da;
+      margin-bottom: 20px;
+    }
+
+    .login-box input {
       width: 100%;
       padding: 10px;
-      margin-top: 10px;
-      border-radius: 5px;
+      margin-top: 12px;
+      border-radius: 6px;
       border: 1px solid #ccc;
+      font-size: 1rem;
     }
 
-    .login-container input[type="submit"] {
+    .login-box input[type="submit"] {
       background-color: #0a74da;
       color: white;
-      padding: 10px;
-      border: none;
-      width: 100%;
-      margin-top: 20px;
-      border-radius: 5px;
       cursor: pointer;
+      font-weight: bold;
     }
 
-    .login-container input[type="submit"]:hover {
+    .login-box input[type="submit"]:hover {
       background-color: #064db2;
     }
 
-    html {
-      scroll-behavior: smooth;
+    @media (max-width: 500px) {
+      h1 {
+        font-size: 2rem;
+      }
+
+      p {
+        font-size: 1rem;
+      }
+
+      .login-box {
+        padding: 20px;
+      }
     }
   </style>
 </head>
 <body>
 
-  <!-- Section 1 -->
+  <!-- Hero Section -->
   <section>
-    <h1 class="section-title">Welcome to</h1>
-    <h1 class="section-title">TOTOYAAnbu</h1>
+    <div class="brand-logo fade-up">A</div>
+    <h1 class="fade-up">Welcome to TOTOYAAnbu</h1>
+    <p class="fade-up">Your personalized platform. Please scroll down to login and begin.</p>
   </section>
 
-  <!-- Section 2 -->
+  <!-- Login Section -->
   <section>
-    <div class="login-container" id="loginBox">
+    <div class="login-box" id="loginBox">
       <h2>Login</h2>
-      <form action="LoginServlet" method="post">
-        <input type="text" name="username" placeholder="Enter Username" required>
-        <input type="password" name="password" placeholder="Enter Password" required>
-        <input type="submit" value="Login">
+      <form onsubmit="handleLogin(event)">
+        <input type="text" id="username" placeholder="Username" required />
+        <input type="password" id="password" placeholder="Password" required />
+        <input type="submit" value="Login" />
       </form>
     </div>
   </section>
 
   <script>
-    // Scroll-triggered animations
-    const titles = document.querySelectorAll('.section-title');
+    // Scroll animation
+    const fadeUps = document.querySelectorAll('.fade-up');
     const loginBox = document.getElementById('loginBox');
 
     const revealOnScroll = () => {
-      const triggerBottom = window.innerHeight * 0.85;
+      const trigger = window.innerHeight * 0.85;
 
-      titles.forEach(title => {
-        const titleTop = title.getBoundingClientRect().top;
-        if (titleTop < triggerBottom) {
-          title.classList.add('show');
-        }
+      fadeUps.forEach(el => {
+        const top = el.getBoundingClientRect().top;
+        if (top < trigger) el.classList.add('show');
       });
 
       const loginTop = loginBox.getBoundingClientRect().top;
-      if (loginTop < triggerBottom) {
-        loginBox.classList.add('show');
-      }
+      if (loginTop < trigger) loginBox.classList.add('show');
     };
 
     window.addEventListener('scroll', revealOnScroll);
     window.addEventListener('load', revealOnScroll);
+
+    // Fake login handler
+    function handleLogin(e) {
+      e.preventDefault();
+      const user = document.getElementById("username").value;
+      const pass = document.getElementById("password").value;
+
+      if (user === "anbu" && pass === "totoya123") {
+        alert(`✅ Welcome ${user}!`);
+      } else {
+        alert("❌ Invalid username or password.");
+      }
+    }
   </script>
 
 </body>
