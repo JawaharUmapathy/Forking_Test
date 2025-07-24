@@ -17,7 +17,7 @@ public class magicn {
             System.out.println("Magic is number");
         }
         else{
-            System.out.println("Not Magic is number");
+            System.out.println("Not  number");
         }
     }
 }
