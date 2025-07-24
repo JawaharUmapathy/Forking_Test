@@ -1,56 +1,132 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>TOTOYAAnbu Login</title>
-    <style>
-        body {
-            background: #f0f4f8;
-            font-family: Arial, sans-serif;
-        }
-        .login-container {
-            width: 350px;
-            margin: 100px auto;
-            padding: 30px;
-            background: #fff;
-            box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
-            border-radius: 10px;
-        }
-        .login-container h2 {
-            text-align: center;
-            color: #333;
-        }
-        .login-container input[type="text"],
-        .login-container input[type="password"] {
-            width: 100%;
-            padding: 10px;
-            margin-top: 10px;
-            border-radius: 5px;
-            border: 1px solid #ccc;
-        }
-        .login-container input[type="submit"] {
-            background-color: #0a74da;
-            color: white;
-            padding: 10px;
-            border: none;
-            width: 100%;
-            margin-top: 20px;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-        .login-container input[type="submit"]:hover {
-            background-color: #064db2;
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <title>TOTOYAAnbu Login</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      overflow-x: hidden;
+      background: linear-gradient(to bottom, #e0f7fa, #ffffff);
+    }
+
+    section {
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      scroll-snap-align: start;
+    }
+
+    .section-title {
+      font-size: 3em;
+      color: #0a74da;
+      opacity: 0;
+      transform: translateY(50px);
+      transition: all 1s ease;
+    }
+
+    .section-title.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .login-container {
+      opacity: 0;
+      transform: translateY(100px);
+      transition: all 1.5s ease;
+      width: 350px;
+      padding: 30px;
+      background: #fff;
+      box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.15);
+      border-radius: 12px;
+    }
+
+    .login-container.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .login-container h2 {
+      text-align: center;
+      color: #0a74da;
+    }
+
+    .login-container input[type="text"],
+    .login-container input[type="password"] {
+      width: 100%;
+      padding: 10px;
+      margin-top: 10px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+
+    .login-container input[type="submit"] {
+      background-color: #0a74da;
+      color: white;
+      padding: 10px;
+      border: none;
+      width: 100%;
+      margin-top: 20px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .login-container input[type="submit"]:hover {
+      background-color: #064db2;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+  </style>
 </head>
 <body>
-    <div class="login-container">
-        <h2>Welcome to TOTOYAAnbu</h2>
-        <form action="LoginServlet" method="post">
-            <input type="text" name="username" placeholder="Enter Username" required>
-            <input type="password" name="password" placeholder="Enter Password" required>
-            <input type="submit" value="Login">
-        </form>
+
+  <!-- Section 1 -->
+  <section>
+    <h1 class="section-title">Welcome to</h1>
+    <h1 class="section-title">TOTOYAAnbu</h1>
+  </section>
+
+  <!-- Section 2 -->
+  <section>
+    <div class="login-container" id="loginBox">
+      <h2>Login</h2>
+      <form action="LoginServlet" method="post">
+        <input type="text" name="username" placeholder="Enter Username" required>
+        <input type="password" name="password" placeholder="Enter Password" required>
+        <input type="submit" value="Login">
+      </form>
     </div>
+  </section>
+
+  <script>
+    // Scroll-triggered animations
+    const titles = document.querySelectorAll('.section-title');
+    const loginBox = document.getElementById('loginBox');
+
+    const revealOnScroll = () => {
+      const triggerBottom = window.innerHeight * 0.85;
+
+      titles.forEach(title => {
+        const titleTop = title.getBoundingClientRect().top;
+        if (titleTop < triggerBottom) {
+          title.classList.add('show');
+        }
+      });
+
+      const loginTop = loginBox.getBoundingClientRect().top;
+      if (loginTop < triggerBottom) {
+        loginBox.classList.add('show');
+      }
+    };
+
+    window.addEventListener('scroll', revealOnScroll);
+    window.addEventListener('load', revealOnScroll);
+  </script>
+
 </body>
 </html>
